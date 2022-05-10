@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 var connString = builder.Configuration.GetConnectionString("CheckExists");
 var dbConnString = builder.Configuration.GetConnectionString("MVCTestContext");
 var databaseName = "MVCTestContext-9682b5ae-3fa3-4b3c-a2f9-80cdcb5b6484";
-var userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 
 // Check if database exists in the computer. If it does not, create the database
 SqlConnection conn = new SqlConnection(connString);
@@ -17,8 +16,8 @@ conn.Open();
 
 if (command.ExecuteScalar() == DBNull.Value)
 {
-    command = new SqlCommand($"CREATE DATABASE ['" + databaseName + "'] ON PRIMARY( NAME = '" + databaseName + "_data', FILENAME = 'C:\\Users\\" + userName + "\\Desktop\\" + databaseName + "_data.mdf') LOG ON( NAME = '" + databaseName + "_log', FILENAME = 'C:\\Users\\" + userName + "\\Desktop\\" + databaseName + "_log.ldf'", conn);
-    command.ExecuteNonQuery();
+    var createCommand = new SqlCommand($"CREATE DATABASE [" + databaseName + "]", conn);
+    createCommand.ExecuteNonQuery();
 }
 
 if (conn.State == ConnectionState.Open)
