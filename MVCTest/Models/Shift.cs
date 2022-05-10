@@ -54,8 +54,5 @@ namespace MVCTest.Models
         {
             get { return ((int) (_shiftEnd - _shiftStart).TotalHours); }
         }
-
-        [DisplayName("Employees")]
-        public ICollection<Employee> Employee { get; set; }
     }
 }
